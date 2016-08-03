@@ -39,7 +39,7 @@
 			float2 motion = tex2D(_CameraMotionVectorsTexture, input.uv).xy;
 
 			float4 color = tex2D(_MainTex, input.uv);
-			float4 history = tex2D(_HistoryTex, input.uv + motion);
+			float4 history = tex2D(_HistoryTex, input.uv - motion);
 
 			return lerp(color, history, .5);
 		}
