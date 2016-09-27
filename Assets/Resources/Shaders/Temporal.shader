@@ -26,6 +26,11 @@ Shader "Hidden/Temporal"
         output.position = mul(UNITY_MATRIX_MVP, input.position);
         output.uv = input.uv;
 
+    #if UNITY_UV_STARTS_AT_TOP
+        if (_MainTex_TexelSize.y < 0)
+            output.uv.y = 1. - input.uv.y;
+    #endif
+
         return output;
     }
 
