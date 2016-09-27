@@ -20,6 +20,13 @@ Shader "Hidden/Temporal"
         float2 uv : TEXCOORD0;
     };
 
+    sampler2D _MainTex;
+    sampler2D _HistoryTex;
+
+    sampler2D _CameraMotionVectorsTexture;
+
+    float4 _MainTex_TexelSize;
+
     Varyings vertex(Input input)
     {
         Varyings output;
@@ -33,11 +40,6 @@ Shader "Hidden/Temporal"
 
         return output;
     }
-
-    sampler2D _MainTex;
-    sampler2D _HistoryTex;
-
-    sampler2D _CameraMotionVectorsTexture;
 
     float4 fragment(Varyings input) : SV_Target
     {
