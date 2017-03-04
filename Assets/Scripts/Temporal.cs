@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 [ExecuteInEditMode]
-[RequireComponent(typeof(Camera))]
+[RequireComponent(typeof (Camera))]
 public class Temporal : MonoBehaviour
 {
     private Shader m_Shader;
@@ -35,7 +35,7 @@ public class Temporal : MonoBehaviour
     }
 
     private Camera m_Camera;
-    public Camera camera_
+    public new Camera camera
     {
         get
         {
@@ -80,33 +80,33 @@ public class Temporal : MonoBehaviour
     // https://github.com/playdeadgames/temporal/blob/master/Assets/Scripts/Extensions.cs
     private Matrix4x4 GetPerspectiveProjectionMatrix(Vector2 offset)
     {
-        float vertical = Mathf.Tan(0.5f * Mathf.Deg2Rad * camera_.fieldOfView);
-        float horizontal = vertical * camera_.aspect;
+        float vertical = Mathf.Tan(0.5f * Mathf.Deg2Rad * camera.fieldOfView);
+        float horizontal = vertical * camera.aspect;
 
-        offset.x *= horizontal / (0.5f * camera_.pixelWidth);
-        offset.y *= vertical / (0.5f * camera_.pixelHeight);
+        offset.x *= horizontal / (0.5f * camera.pixelWidth);
+        offset.y *= vertical / (0.5f * camera.pixelHeight);
 
-        float left = (offset.x - horizontal) * camera_.nearClipPlane;
-        float right = (offset.x + horizontal) * camera_.nearClipPlane;
-        float top = (offset.y + vertical) * camera_.nearClipPlane;
-        float bottom = (offset.y - vertical) * camera_.nearClipPlane;
+        float left = (offset.x - horizontal) * camera.nearClipPlane;
+        float right = (offset.x + horizontal) * camera.nearClipPlane;
+        float top = (offset.y + vertical) * camera.nearClipPlane;
+        float bottom = (offset.y - vertical) * camera.nearClipPlane;
 
         Matrix4x4 matrix = new Matrix4x4();
 
-        matrix[0, 0] = (2.0f * camera_.nearClipPlane) / (right - left);
+        matrix[0, 0] = (2.0f * camera.nearClipPlane) / (right - left);
         matrix[0, 1] = 0.0f;
         matrix[0, 2] = (right + left) / (right - left);
         matrix[0, 3] = 0.0f;
 
         matrix[1, 0] = 0.0f;
-        matrix[1, 1] = (2.0f * camera_.nearClipPlane) / (top - bottom);
+        matrix[1, 1] = (2.0f * camera.nearClipPlane) / (top - bottom);
         matrix[1, 2] = (top + bottom) / (top - bottom);
         matrix[1, 3] = 0.0f;
 
         matrix[2, 0] = 0.0f;
         matrix[2, 1] = 0.0f;
-        matrix[2, 2] = -(camera_.farClipPlane + camera_.nearClipPlane) / (camera_.farClipPlane - camera_.nearClipPlane);
-        matrix[2, 3] = -(2.0f * camera_.farClipPlane * camera_.nearClipPlane) / (camera_.farClipPlane - camera_.nearClipPlane);
+        matrix[2, 2] = -(camera.farClipPlane + camera.nearClipPlane) / (camera.farClipPlane - camera.nearClipPlane);
+        matrix[2, 3] = -(2.0f * camera.farClipPlane * camera.nearClipPlane) / (camera.farClipPlane - camera.nearClipPlane);
 
         matrix[3, 0] = 0.0f;
         matrix[3, 1] = 0.0f;
@@ -118,7 +118,7 @@ public class Temporal : MonoBehaviour
 
     void OnEnable()
     {
-        camera_.depthTextureMode = DepthTextureMode.Depth | DepthTextureMode.MotionVectors;
+        camera.depthTextureMode = DepthTextureMode.Depth | DepthTextureMode.MotionVectors;
     }
 
     void OnDisable()
@@ -129,7 +129,7 @@ public class Temporal : MonoBehaviour
             m_History = null;
         }
 
-        camera_.depthTextureMode &= ~(DepthTextureMode.MotionVectors);
+        camera.depthTextureMode &= ~(DepthTextureMode.MotionVectors);
     }
 
     void OnPreCull()
@@ -137,9 +137,9 @@ public class Temporal : MonoBehaviour
         Vector2 offset = GenerateRandomOffset();
 
 #if UNITY_5_5_OR_NEWER
-        camera_.nonJitteredProjectionMatrix = camera_.projectionMatrix;
+        camera.nonJitteredProjectionMatrix = camera.projectionMatrix;
 #endif
-        camera_.projectionMatrix = GetPerspectiveProjectionMatrix(offset);
+        camera.projectionMatrix = GetPerspectiveProjectionMatrix(offset);
     }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -169,6 +169,6 @@ public class Temporal : MonoBehaviour
 
     void OnPostRender()
     {
-        camera_.ResetProjectionMatrix();
+        camera.ResetProjectionMatrix();
     }
 }
