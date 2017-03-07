@@ -10,13 +10,13 @@ Shader "Hidden/Temporal"
 
     struct Input
     {
-        float4 position : POSITION;
+        float4 vertex : POSITION;
         float2 uv : TEXCOORD0;
     };
 
     struct Varyings
     {
-        float4 position : SV_POSITION;
+        float4 vertex : SV_POSITION;
         float2 uv : TEXCOORD0;
     };
 
@@ -27,10 +27,11 @@ Shader "Hidden/Temporal"
 
     float4 _MainTex_TexelSize;
 
-    Varyings vertex(Input input)
+    Varyings vertex(in Input input)
     {
         Varyings output;
-        output.position = mul(UNITY_MATRIX_MVP, input.position);
+
+        output.vertex = UnityObjectToClipPos(input.vertex);
         output.uv = input.uv;
 
     #if UNITY_UV_STARTS_AT_TOP
