@@ -1,4 +1,4 @@
-Shader "Hidden/Temporal"
+Shader "Hidden/Temporal Reprojection"
 {
     Properties
     {

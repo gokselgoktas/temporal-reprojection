@@ -3,7 +3,7 @@ using System.Collections;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof (Camera))]
-public class Temporal : MonoBehaviour
+public class TemporalReprojection : MonoBehaviour
 {
     private Shader m_Shader;
     public Shader shader
@@ -11,7 +11,7 @@ public class Temporal : MonoBehaviour
         get
         {
             if (m_Shader == null)
-                m_Shader = Shader.Find("Hidden/Temporal");
+                m_Shader = Shader.Find("Hidden/Temporal Reprojection");
 
             return m_Shader;
         }
